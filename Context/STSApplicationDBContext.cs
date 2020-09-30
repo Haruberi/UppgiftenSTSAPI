@@ -14,9 +14,12 @@ namespace UppgiftenSTSAPI.Context
         public DbSet<Paymentmethod> paymentmethods { get; set; }
         public DbSet<StudentSeminar> studentSeminars { get; set; }
 
+        public STSApplicationDBContext(DbContextOptions<STSApplicationDBContext> options) : base(options)
+        {
+        }
+
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlServer(@"Server=localhost\SQLEXPRESS;Database=UppgiftenSTSAPIDatabas;Trusted_Connection=True;");
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

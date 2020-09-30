@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using UppgiftenSTSAPI.Context;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -12,24 +14,41 @@ namespace UppgiftenSTSAPI.Controllers
     [ApiController]
     public class SeminarsController : ControllerBase
     {
+        private readonly STSApplicationDBContext _context;
+
+        public SeminarsController(STSApplicationDBContext context)
+        {
+            _context = context;
+        }
+
         // GET: api/<SeminarsController>
         [HttpGet]
-        public IEnumerable<string> Get()
+        public IEnumerable<Paymentmethod> Get()
         {
-            return new string[] { "value1", "value2" };
+            return _context.paymentmethods.Include(o => o.seminar).ToArray<Paymentmethod>();
         }
 
         // GET api/<SeminarsController>/5
         [HttpGet("{id}")]
-        public string Get(int id)
+        public Paymentmethod Get(int id)
         {
-            return "value";
+            var paymentmethod = _context.paymentmethods.Where(o => o.id == id).FirstOrDefault();
+            if (paymentmethod != null)
+            {
+                return paymentmethod;
+            }
+            else
+            {
+                return null;
+            }
         }
 
         // POST api/<SeminarsController>
         [HttpPost]
-        public void Post([FromBody] string value)
+        public void Post([FromBody] Paymentmethod paymentmethod)
         {
+            _context.paymentmethods.Add(paymentmethod);
+            _context.SaveChanges();
         }
 
         // PUT api/<SeminarsController>/5
@@ -42,6 +61,10 @@ namespace UppgiftenSTSAPI.Controllers
         [HttpDelete("{id}")]
         public void Delete(int id)
         {
+            var paymentmethod = new Paymentmethod { id = id };
+            _context.paymentmethods.Attach(paymentmethod);
+            _context.paymentmethods.Remove(paymentmethod);
+            _context.SaveChanges();
         }
     }
 }
