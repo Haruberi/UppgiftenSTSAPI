@@ -2,15 +2,17 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using UppgiftenSTSAPI.Context;
 
 namespace UppgiftenSTSAPI.Migrations
 {
     [DbContext(typeof(STSApplicationDBContext))]
-    partial class STSApplicationDBContextModelSnapshot : ModelSnapshot
+    [Migration("20200930135409_AddStudentSeminar")]
+    partial class AddStudentSeminar
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
