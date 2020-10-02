@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using UppgiftenSTSAPI.Context;
 using UppgiftenSTSAPI.Entities;
+using UppgiftenSTSAPI.Models;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -46,9 +47,9 @@ namespace UppgiftenSTSAPI.Controllers
 
         // POST api/<SeminarsController>
         [HttpPost]
-        public void Post([FromBody] Paymentmethod paymentmethod)
+        public void Post([FromBody] SeminarViewModel seminar)
         {
-            _context.paymentmethods.Add(paymentmethod);
+            _context.seminars.Add(new Seminar { seminarname = seminar.name, SeminarOfPaymentmethodId = seminar.paymentmethodId });
             _context.SaveChanges();
         }
 

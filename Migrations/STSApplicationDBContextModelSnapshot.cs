@@ -61,6 +61,9 @@ namespace UppgiftenSTSAPI.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<int>("currentDormId")
+                        .HasColumnType("int");
+
                     b.Property<string>("mail")
                         .HasColumnType("nvarchar(max)");
 
@@ -69,7 +72,24 @@ namespace UppgiftenSTSAPI.Migrations
 
                     b.HasKey("id");
 
+                    b.HasIndex("currentDormId");
+
                     b.ToTable("students");
+                });
+
+            modelBuilder.Entity("UppgiftenSTSAPI.Entities.Dorm", b =>
+                {
+                    b.Property<int>("id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("id");
+
+                    b.ToTable("dorms");
                 });
 
             modelBuilder.Entity("UppgiftenSTSAPI.Entities.StudentSeminar", b =>
@@ -92,6 +112,15 @@ namespace UppgiftenSTSAPI.Migrations
                     b.HasOne("UppgiftenSTSAPI.Context.Paymentmethod", "Paymentmethod")
                         .WithOne("seminar")
                         .HasForeignKey("UppgiftenSTSAPI.Context.Seminar", "SeminarOfPaymentmethodId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("UppgiftenSTSAPI.Context.Student", b =>
+                {
+                    b.HasOne("UppgiftenSTSAPI.Entities.Dorm", "dorm")
+                        .WithMany("students")
+                        .HasForeignKey("currentDormId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });

@@ -13,6 +13,7 @@ namespace UppgiftenSTSAPI.Context
         public DbSet<Seminar> seminars { get; set; }
         public DbSet<Paymentmethod> paymentmethods { get; set; }
         public DbSet<StudentSeminar> studentSeminars { get; set; }
+        public DbSet<Dorm> dorms { get; set; }
 
         public STSApplicationDBContext(DbContextOptions<STSApplicationDBContext> options) : base(options)
         {
@@ -33,6 +34,10 @@ namespace UppgiftenSTSAPI.Context
             //many-to-many mellan student och seminar 
             modelBuilder.Entity<StudentSeminar>().HasKey(sc => new { sc.studentId, sc.seminarId });
 
+            modelBuilder.Entity<Student>()
+                .HasOne<Dorm>(s => s.dorm)
+                .WithMany(g => g.students)
+                .HasForeignKey(s => s.currentDormId);
         }
     }
 }

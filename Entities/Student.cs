@@ -10,5 +10,7 @@ namespace UppgiftenSTSAPI.Context
         public string name { get; set; }
         public string mail { get; set; }
         public IList<StudentSeminar> studentseminars { get; set; }
+        public int currentDormId { get; set; }
+        public Dorm dorm { get; set; }
     }
 }
